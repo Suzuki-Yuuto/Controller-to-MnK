@@ -1,6 +1,6 @@
 # Controller to MnK
 
-A standalone C# WinForms application that remaps an XInput controller's buttons and joysticks to keyboard strokes and mouse movements. It serves as a modern, native alternative to AutoHotkey-based controller remappers with an easy-to-use dashboard UI.
+A standalone C# WinForms application that remaps an XInput controller's buttons and joysticks to keyboard strokes and mouse movements. It is a modern, standalone native Windows application designed as a simple Controller to MnK converter with an easy-to-use dashboard UI.
 
 ## Features
 - **Dynamic Mouse Routing**: Easily assign the Left Stick, Right Stick, or D-Pad to exclusively control the mouse cursor.
