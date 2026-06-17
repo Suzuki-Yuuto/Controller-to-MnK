@@ -77,7 +77,7 @@ public class MainForm : Form
     // ── UI Setup ──────────────────────────────────────────────────────────────
     private void InitializeUI()
     {
-        this.Text = "Controller Remapper Dashboard";
+        this.Text = "Controller to MnK Dashboard";
         this.Size = new Size(560, 590);
         this.MaximizeBox = false;
         this.FormBorderStyle = FormBorderStyle.FixedDialog;

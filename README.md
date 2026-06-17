@@ -1,4 +1,4 @@
-# Controller Remapper
+# Controller to MnK
 
 A standalone C# WinForms application that remaps an XInput controller's buttons and joysticks to keyboard strokes and mouse movements. It serves as a modern, native alternative to AutoHotkey-based controller remappers with an easy-to-use dashboard UI.
 
@@ -16,7 +16,7 @@ A standalone C# WinForms application that remaps an XInput controller's buttons 
 
 ## How to Use
 1. Go to the **[Releases](../../releases)** page of this GitHub repository.
-2. Download the latest `ControllerRemapper.exe` file.
+2. Download the latest `Controller to MnK.exe` file.
    - *Note: This `.exe` is completely self-contained! You do **not** need to download or install the .NET runtime to use it. Just double-click and run!*
 3. Configure your desired bindings in the UI text boxes (e.g., `space`, `lbutton`, `enter`, `f1`).
    - *Tip: Click the **Help (Key Names)** button to view all valid key string names.*
