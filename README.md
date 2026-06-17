@@ -13,17 +13,14 @@ A standalone C# WinForms application that remaps an XInput controller's buttons 
 - **[GregsStack.InputSimulatorStandard](https://www.nuget.org/packages/GregsStack.InputSimulatorStandard/)**: Provides low-level OS injection for accurately simulating keyboard and mouse events natively in Windows.
 
 ## How to Use
-1. Ensure you have the **[.NET 8.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)** installed on your machine.
-2. Open a terminal (PowerShell or CMD) and navigate to the `ControllerRemapper` directory.
-3. Run the following command to build and launch the application:
-   ```bash
-   dotnet run
-   ```
-4. Configure your desired bindings in the UI text boxes (e.g., `space`, `lbutton`, `enter`, `f1`).
+1. Go to the **[Releases](../../releases)** page of this GitHub repository.
+2. Download the latest `ControllerRemapper.exe` file.
+   - *Note: This `.exe` is completely self-contained! You do **not** need to download or install the .NET runtime to use it. Just double-click and run!*
+3. Configure your desired bindings in the UI text boxes (e.g., `space`, `lbutton`, `enter`, `f1`).
    - *Tip: Click the **Help (Key Names)** button to view all valid key string names.*
-5. Use the **Mouse Controller** radio buttons to select which analog stick (or D-Pad) should control your mouse. 
-6. Adjust your **Dead** (Deadzone Threshold) and **Sens** (Sensitivity Multiplier) to tune the cursor speed to your liking.
-7. Make sure **Enable Remapper** is checked and click **Apply Settings**!
+4. Use the **Mouse Controller** radio buttons to select which analog stick (or D-Pad) should control your mouse. 
+5. Adjust your **Dead** (Deadzone Threshold) and **Sens** (Sensitivity Multiplier) to tune the cursor speed to your liking.
+6. Make sure **Enable Remapper** is checked and click **Apply Settings**!
 
 ## Limitations & Compatibility
 - **XInput Controllers Only**: Because this application relies directly on the Windows XInput API, it natively works *only* with Xbox controllers (Xbox 360, Xbox One, Xbox Series X|S) and compatible third-party PC controllers.

@@ -20,7 +20,7 @@ public class MainForm : Form
     private TextBox edit_Thresh, edit_Mult;
     
     private RadioButton radMouseNone, radMouseLeft, radMouseRight, radMouseDPad;
-    private CheckBox chk_Enable;
+    private CheckBox chk_Enable, chk_DarkMode;
     private Button btn_Apply, btn_Exit, btn_Help;
 
     private System.Windows.Forms.Timer loopTimer;
@@ -127,7 +127,10 @@ public class MainForm : Form
         btn_Apply = new Button { Text = "Apply Settings", Bounds = new Rectangle(345, 310, 180, 30), Parent = this };
         btn_Apply.Click += (s, e) => ApplySettings();
 
-        chk_Enable = new CheckBox { Text = "Enable Remapper", Bounds = new Rectangle(345, 350, 180, 20), Checked = true, Parent = this };
+        chk_Enable = new CheckBox { Text = "Enable Remapper", Bounds = new Rectangle(345, 350, 105, 20), Checked = true, Parent = this };
+
+        chk_DarkMode = new CheckBox { Text = "Dark Mode", Bounds = new Rectangle(450, 350, 80, 20), Parent = this };
+        chk_DarkMode.CheckedChanged += ToggleDarkMode;
 
         btn_Help = new Button { Text = "Help (Key Names)", Bounds = new Rectangle(345, 385, 180, 30), Parent = this };
         btn_Help.Click += (s, e) => ShowHelp();
@@ -178,37 +181,32 @@ public class MainForm : Form
             MinimizeBox = false
         };
 
-        ListView lv = new ListView
+        TreeView tv = new TreeView
         {
-            View = View.Details,
             Dock = DockStyle.Fill,
-            FullRowSelect = true,
-            HeaderStyle = ColumnHeaderStyle.None,
             Parent = helpForm,
-            Font = new Font("Segoe UI", 9.5F, FontStyle.Regular, GraphicsUnit.Point)
+            Font = new Font("Segoe UI", 9.5F, FontStyle.Regular, GraphicsUnit.Point),
+            ShowLines = false,
+            FullRowSelect = true,
+            ItemHeight = 22
         };
 
-        lv.Columns.Add("Action", 200);
-        lv.Columns.Add("Key Code", 200);
-
-        void AddGroup(string groupName, (string, string)[] items)
+        void AddCategory(string categoryName, (string, string)[] items)
         {
-            ListViewGroup group = new ListViewGroup(groupName);
-            lv.Groups.Add(group);
+            TreeNode categoryNode = tv.Nodes.Add(categoryName);
+            categoryNode.NodeFont = new Font(tv.Font, FontStyle.Bold);
             foreach (var item in items)
             {
-                ListViewItem lvi = new ListViewItem(item.Item1) { Group = group };
-                lvi.SubItems.Add(item.Item2);
-                lv.Items.Add(lvi);
+                categoryNode.Nodes.Add($"{item.Item1} ➔ {item.Item2}");
             }
         }
 
-        AddGroup("Standard Letters & Numbers", new[] {
-            ("Letters (Lowercase)", "a through z"),
-            ("Numbers", "0 through 9")
+        AddCategory("Standard Letters & Numbers  ", new[] {
+            ("Letters (Lowercase)", "a - z"),
+            ("Numbers", "0 - 9")
         });
 
-        AddGroup("Modifier & System Keys", new[] {
+        AddCategory("Modifier & System Keys  ", new[] {
             ("Spacebar", "space"),
             ("Left / Right Shift", "lshift / rshift"),
             ("Left / Right Control", "lctrl / rctrl"),
@@ -224,19 +222,19 @@ public class MainForm : Form
             ("Pause / Break", "pause")
         });
 
-        AddGroup("Navigation & Editing", new[] {
-            ("Arrows", "up, down, left, right"),
+        AddCategory("Navigation & Editing  ", new[] {
+            ("Arrow Keys", "up, down, left, right"),
             ("Insert / Delete", "insert / delete"),
             ("Home / End", "home / end"),
             ("Page Up / Down", "pgup / pgdn")
         });
 
-        AddGroup("Function Keys", new[] {
-            ("F1 to F24", "f1, f2, f3 ... f24")
+        AddCategory("Function Keys  ", new[] {
+            ("F1 to F12", "f1, f2, f3 ... f12")
         });
 
-        AddGroup("Numeric Keypad (Numpad)", new[] {
-            ("Numbers", "numpad0 through numpad9"),
+        AddCategory("NumPad  ", new[] {
+            ("Numbers", "numpad0 - numpad9"),
             ("Period / Dot", "numpaddot"),
             ("Enter", "numpadenter"),
             ("Plus / Minus", "numpadadd / numpadsub"),
@@ -245,14 +243,15 @@ public class MainForm : Form
             ("Clear", "numpadclear")
         });
 
-        AddGroup("Mouse Controls", new[] {
+        AddCategory("Mouse Controls  ", new[] {
             ("Left / Right Click", "lbutton / rbutton"),
             ("Middle Click / Wheel", "mbutton"),
             ("Side Buttons", "xbutton1 / xbutton2"),
-            ("Scroll Wheel", "wheelup, wheeldown, wheelleft, wheelright")
+            ("Scroll Wheel", "wheelup, wheeldown"),
+            ("Scroll Wheel Tilt", "wheelleft, wheelright")
         });
 
-        AddGroup("Punctuation & Symbols", new[] {
+        AddCategory("Punctuation & Symbols  ", new[] {
             ("Semicolon (;)", ";"),
             ("Comma (,)", ","),
             ("Period (.)", "."),
@@ -271,6 +270,43 @@ public class MainForm : Form
 
     private void ApplySettings()
     {
+        var textboxes = new Dictionary<string, TextBox> { 
+            { "Left Stick Up", edit_W }, { "Left Stick Left", edit_A }, { "Left Stick Down", edit_S }, { "Left Stick Right", edit_D }, 
+            { "Right Stick Up", edit_RUp }, { "Right Stick Down", edit_RDown }, { "Right Stick Left", edit_RLeft }, { "Right Stick Right", edit_RRight }, 
+            { "D-Pad Up", edit_Up }, { "D-Pad Down", edit_Down }, { "D-Pad Left", edit_Left }, { "D-Pad Right", edit_Right }, 
+            { "Face Button A", edit_A_Btn }, { "Face Button B", edit_B_Btn }, { "Face Button X", edit_X_Btn }, { "Face Button Y", edit_Y_Btn }, 
+            { "Left Bumper", edit_LB }, { "Right Bumper", edit_RB }, { "Left Stick Click", edit_L3 }, { "Right Stick Click", edit_R3 }, 
+            { "Left Trigger", edit_LT }, { "Right Trigger", edit_RT } 
+        };
+
+        Dictionary<string, List<string>> keyToControls = new(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var kvp in textboxes)
+        {
+            if (kvp.Value.Enabled && !string.IsNullOrWhiteSpace(kvp.Value.Text))
+            {
+                string key = kvp.Value.Text.Trim();
+                if (!keyToControls.ContainsKey(key)) keyToControls[key] = new List<string>();
+                keyToControls[key].Add(kvp.Key);
+            }
+        }
+
+        List<string> conflicts = new List<string>();
+        foreach (var kvp in keyToControls)
+        {
+            if (kvp.Value.Count > 1)
+            {
+                conflicts.Add($"- '{kvp.Key}' is mapped to: {string.Join(", ", kvp.Value)}");
+            }
+        }
+
+        if (conflicts.Count > 0)
+        {
+            MessageBox.Show("Conflicting controls detected:\n\n" + string.Join("\n", conflicts) + "\n\nPlease ensure all active mappings are unique.", "Conflicts Detected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            chk_Enable.Checked = false;
+            return;
+        }
+
         VirtualKeyMapper.TryMapKey(edit_W.Text, out key_W);
         VirtualKeyMapper.TryMapKey(edit_A.Text, out key_A);
         VirtualKeyMapper.TryMapKey(edit_S.Text, out key_S);
@@ -542,5 +578,47 @@ public class MainForm : Form
             if (!rt_down) { PressKey(key_RT); rt_down = true; }
         }
         else if (rt_down) { ReleaseKey(key_RT); rt_down = false; }
+    }
+
+    private void ToggleDarkMode(object? sender, EventArgs e)
+    {
+        bool isDark = chk_DarkMode.Checked;
+        Color bg = isDark ? Color.FromArgb(45, 45, 48) : SystemColors.Control;
+        Color fg = isDark ? Color.White : SystemColors.ControlText;
+        Color boxBg = isDark ? Color.FromArgb(30, 30, 30) : SystemColors.Window;
+        
+        this.BackColor = bg;
+        this.ForeColor = fg;
+
+        foreach (Control c in this.Controls)
+        {
+            UpdateControlColors(c, bg, fg, boxBg, isDark);
+        }
+    }
+
+    private void UpdateControlColors(Control c, Color bg, Color fg, Color boxBg, bool isDark)
+    {
+        if (c is GroupBox || c is CheckBox || c is RadioButton || c is Label)
+        {
+            c.ForeColor = fg;
+        }
+        else if (c is TextBox tb)
+        {
+            tb.BackColor = boxBg;
+            tb.ForeColor = fg;
+            tb.BorderStyle = isDark ? BorderStyle.FixedSingle : BorderStyle.Fixed3D;
+        }
+        else if (c is Button btn)
+        {
+            btn.BackColor = isDark ? Color.FromArgb(60, 60, 60) : SystemColors.Control;
+            btn.ForeColor = fg;
+            btn.FlatStyle = isDark ? FlatStyle.Flat : FlatStyle.Standard;
+            if (isDark) btn.FlatAppearance.BorderColor = Color.Gray;
+        }
+        
+        foreach (Control child in c.Controls)
+        {
+            UpdateControlColors(child, bg, fg, boxBg, isDark);
+        }
     }
 }
