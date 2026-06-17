@@ -5,7 +5,9 @@ A standalone C# WinForms application that remaps an XInput controller's buttons 
 ## Features
 - **Dynamic Mouse Routing**: Easily assign the Left Stick, Right Stick, or D-Pad to exclusively control the mouse cursor.
 - **Full Keyboard & Mouse Mapping**: Map controller face buttons, shoulders, triggers, and D-Pad to practically any keyboard key, mouse click, or scroll wheel action.
+- **Preset System & Auto-Save**: Save multiple named presets for different games. Your last-used settings are automatically saved and restored when the app is reopened!
 - **Real-time Configuration**: Apply your new bindings seamlessly without having to restart the application.
+- **Dark Mode**: Comes with a sleek Dark Mode enabled by default.
 - **Built-in Key Reference**: Includes a comprehensive built-in dictionary for valid key mapping strings.
 
 ## Packages Used
