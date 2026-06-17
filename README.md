@@ -29,3 +29,6 @@ A standalone C# WinForms application that remaps an XInput controller's buttons 
 - **PlayStation / Switch Controllers**: Sony DualShock/DualSense and Nintendo Switch Pro controllers are DirectInput devices. To use them with this remapper, you must run a wrapper application in the background (such as [DS4Windows](https://ds4-windows.com/), DualSenseX, or Steam Input) to translate their inputs into an emulated Xbox controller.
 - **Windows Only**: This application utilizes WinForms and native Windows input simulation hooks (`user32.dll`). It is not compatible with macOS or Linux.
 - **Permissions**: Depending on the target game or application you are trying to control, you may need to run this remapper as an Administrator for the simulated inputs to be registered by the game engine.
+
+## Credits & Disclaimers
+- The icon used for this application is not my original artwork. It belongs to and depicts the VTuber **Ninomae Ina'nis** (Hololive English) — [YouTube](https://www.youtube.com/@NinomaeInanis) | [X](https://x.com/ninomaeinanis).
