@@ -8,7 +8,7 @@ using GregsStack.InputSimulatorStandard;
 using GregsStack.InputSimulatorStandard.Native;
 using Vortice.XInput;
 
-namespace ControllerRemapper;
+namespace ControllerToMnK;
 
 public enum MouseSource { None, LeftStick, RightStick, DPad }
 
@@ -57,7 +57,7 @@ public class MainForm : Form
 
     // ── Presets ───────────────────────────────────────────────────────────────
     private static readonly string SaveDir = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ControllerRemapper");
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Controller to MnK");
     private static readonly string SavePath = Path.Combine(SaveDir, "presets.json");
     private PresetsFile presetsData = new();
 

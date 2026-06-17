@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using GregsStack.InputSimulatorStandard.Native;
 
-namespace ControllerRemapper;
+namespace ControllerToMnK;
 
 public static class VirtualKeyMapper
 {

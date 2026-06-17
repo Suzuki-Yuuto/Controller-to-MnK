@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace ControllerRemapper;
+namespace ControllerToMnK;
 
 public class PresetSettings
 {

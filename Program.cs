@@ -1,4 +1,4 @@
-namespace ControllerRemapper;
+namespace ControllerToMnK;
 
 static class Program
 {
