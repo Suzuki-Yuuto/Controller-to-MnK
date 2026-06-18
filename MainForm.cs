@@ -354,7 +354,7 @@ public class MainForm : Form
         edit_Left.Enabled = !isDPadMouse; edit_Right.Enabled = !isDPadMouse;
     }
 
-    private void CreateLabelTextBox(Control parent, string labelText, string defaultText, int yPos, out TextBox tb, int labelWidth = 35, int tbWidth = 80)
+    private void CreateLabelTextBox(Control parent, string labelText, string defaultText, int yPos, out TextBox tb, int labelWidth = 42, int tbWidth = 73)
     {
         new Label { Text = labelText, Bounds = new Rectangle(10, yPos + 3, labelWidth, 20), Parent = parent };
         tb = new TextBox { Text = defaultText, Bounds = new Rectangle(10 + labelWidth + 5, yPos, tbWidth, 20), Parent = parent };
@@ -388,7 +388,7 @@ public class MainForm : Form
     {
         Form helpForm = new Form
         {
-            Text = "Help - Valid Keys", Size = new Size(450, 600),
+            Text = "Help - Valid Keys", Size = new Size(480, 600),
             StartPosition = FormStartPosition.CenterParent, ShowIcon = false,
             FormBorderStyle = FormBorderStyle.FixedDialog, MaximizeBox = false, MinimizeBox = false
         };
@@ -396,7 +396,8 @@ public class MainForm : Form
         {
             Dock = DockStyle.Fill, Parent = helpForm,
             Font = new Font("Segoe UI", 9.5F, FontStyle.Regular, GraphicsUnit.Point),
-            ShowLines = false, FullRowSelect = true, ItemHeight = 22
+            ShowLines = false, FullRowSelect = true, ItemHeight = 22,
+            Indent = 25, Scrollable = true
         };
 
         void AddCategory(string name, (string, string)[] items)
@@ -406,13 +407,13 @@ public class MainForm : Form
             foreach (var (label, code) in items) node.Nodes.Add($"{label}  \u2794  {code}");
         }
 
-        AddCategory("Standard Letters & Numbers", new[] { ("Letters (Lowercase)", "a through z"), ("Numbers", "0 through 9") });
-        AddCategory("Modifier & System Keys", new[] { ("Spacebar","space"),("Left/Right Shift","lshift / rshift"),("Left/Right Control","lctrl / rctrl"),("Left/Right Alt","lalt / ralt"),("Left/Right Windows","lwin / rwin"),("Enter","enter"),("Escape","esc"),("Tab","tab"),("Backspace","backspace"),("Caps Lock","capslock"),("Print Screen","printscreen"),("Scroll Lock","scrolllock"),("Pause/Break","pause") });
-        AddCategory("Navigation & Editing", new[] { ("Arrows","up, down, left, right"),("Insert / Delete","insert / delete"),("Home / End","home / end"),("Page Up / Down","pgup / pgdn") });
-        AddCategory("Function Keys", new[] { ("F1 to F24","f1, f2, f3 ... f24") });
-        AddCategory("Numeric Keypad (Numpad)", new[] { ("Numbers","numpad0 through numpad9"),("Period","numpaddot"),("Enter","numpadenter"),("Plus / Minus","numpadadd / numpadsub"),("Multiply / Divide","numpadmult / numpaddiv"),("Num Lock","numlock"),("Clear","numpadclear") });
-        AddCategory("Mouse Controls", new[] { ("Left / Right Click","lbutton / rbutton"),("Middle Click","mbutton"),("Side Buttons","xbutton1 / xbutton2"),("Scroll Wheel","wheelup, wheeldown"),("Scroll Tilt","wheelleft, wheelright") });
-        AddCategory("Punctuation & Symbols", new (string, string)[] { ("Semicolon (;)",";"),("Comma (,)",","),("Period (.)","."),("Forward Slash (/)","/"),("Backslash (\\)","\\"),("Minus (-)","-"),("Equal (=)","="),("Open Bracket ([)","["),("Close Bracket (])","]"),("Apostrophe (')","'"),("Backtick / Tilde (`)","` (next to 1)") });
+        AddCategory("Standard Letters & Numbers    ", new[] { ("Letters (Lowercase)", "a - z"), ("Numbers", "0 - 9") });
+        AddCategory("Modifier & System Keys    ", new[] { ("Spacebar","space"),("Left/Right Shift","lshift / rshift"),("Left/Right Control","lctrl / rctrl"),("Left/Right Alt","lalt / ralt"),("Left/Right Windows","lwin / rwin"),("Enter","enter"),("Escape","esc"),("Tab","tab"),("Backspace","backspace"),("Caps Lock","capslock"),("Print Screen","printscreen"),("Scroll Lock","scrolllock"),("Pause/Break","pause") });
+        AddCategory("Navigation & Editing    ", new[] { ("Arrows","up, down, left, right"),("Insert / Delete","insert / delete"),("Home / End","home / end"),("Page Up / Down","pgup / pgdn") });
+        AddCategory("Function Keys    ", new[] { ("F1 to F12","f1, f2, f3 ... f12") });
+        AddCategory("Numpad    ", new[] { ("Numbers","numpad0 - numpad9"),("Period","numpaddot"),("Enter","numpadenter"),("Plus / Minus","numpadadd / numpadsub"),("Multiply / Divide","numpadmult / numpaddiv"),("Num Lock","numlock"),("Clear","numpadclear") });
+        AddCategory("Mouse Controls    ", new[] { ("Left / Right Click","lbutton / rbutton"),("Middle Click","mbutton"),("Side Buttons","xbutton1 / xbutton2"),("Scroll Wheel","wheelup, wheeldown"),("Scroll Tilt","wheelleft, wheelright") });
+        AddCategory("Punctuation & Symbols    ", new (string, string)[] { ("Semicolon (;)",";"),("Comma (,)",","),("Period (.)","."),("Forward Slash (/)","/"),("Backslash (\\)","\\"),("Minus (-)","-"),("Equal (=)","="),("Open Bracket ([)","["),("Close Bracket (])","]"),("Apostrophe (')","'"),("Backtick / Tilde (`)","` (next to 1)") });
 
         helpForm.ShowDialog();
     }
